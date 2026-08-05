@@ -1,6 +1,7 @@
 import 'package:app/config/colors.dart';
 import 'package:app/config/events.dart';
 import 'package:app/config/routes.dart';
+import 'package:app/config/styles.dart';
 import 'package:app/pages/calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -42,26 +43,17 @@ class _HomePageState extends State<HomePage> {
       ),
       body: IndexedStack(
         index: _currentIndex,
-        children: [CalendarPage(), Placeholder()],
+        children: [
+          CalendarPage(),
+          Center(child: Text('Animais')),
+        ],
       ),
       floatingActionButton: IconButton(
         onPressed: () {
           context.push(_currentIndex == 0 ? Routes.addBooking : Routes.addPet);
         },
         icon: Icon(Icons.add, color: AppColors.backgroundColor),
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.resolveWith<Color?>((
-            Set<WidgetState> states,
-          ) {
-            if (states.contains(WidgetState.disabled)) {
-              return Colors.grey;
-            }
-            if (states.contains(WidgetState.pressed)) {
-              return Colors.blueGrey;
-            }
-            return AppColors.mainColor;
-          }),
-        ),
+        style: AppStyles.floatingActionButton,
       ),
     );
   }
