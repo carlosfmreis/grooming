@@ -1,3 +1,4 @@
+import 'package:app/models/behaviour.dart';
 import 'package:app/models/health.dart';
 import 'package:app/models/owner.dart';
 
@@ -28,7 +29,7 @@ enum CoatType {
 }
 
 class Animal {
-  final String id;
+  final int? id;
   final String name;
   final String species;
   final String breed;
@@ -43,11 +44,12 @@ class Animal {
   final String? microchip;
   final String? photo;
   final String? notes;
-  final Owner owner;
+  final Owner? owner;
   final Health? health;
+  final Behaviour? behaviour;
 
   Animal({
-    required this.id,
+    this.id,
     required this.name,
     required this.species,
     required this.breed,
@@ -62,8 +64,9 @@ class Animal {
     this.microchip,
     this.photo,
     this.notes,
-    required this.owner,
+    this.owner,
     this.health,
+    this.behaviour,
   });
 
   String get age {
@@ -91,7 +94,7 @@ class Animal {
 
   factory Animal.fromMap(Map<String, dynamic> map) {
     return Animal(
-      id: map['id'] as String,
+      id: map['id'] as int?,
       name: map['name'] as String,
       species: map['species'] as String,
       breed: map['breed'] as String,
@@ -113,8 +116,11 @@ class Animal {
       microchip: map['microchip'] as String?,
       photo: map['photo'] as String?,
       notes: map['notes'] as String?,
-      owner: Owner.fromMap(map['owner']),
+      owner: map['owner'] != null ? Owner.fromMap(map['owner']) : null,
       health: map['health'] != null ? Health.fromMap(map['health']) : null,
+      behaviour: map['behaviour'] != null
+          ? Behaviour.fromMap(map['behaviour'])
+          : null,
     );
   }
 
@@ -135,8 +141,9 @@ class Animal {
       'microchip': microchip,
       'photo': photo,
       'notes': notes,
-      'owner': owner.toMap(),
+      'owner': owner?.toMap(),
       'health': health?.toMap(),
+      'behaviour': behaviour?.toMap(),
     };
   }
 }

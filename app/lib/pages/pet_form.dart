@@ -1,4 +1,5 @@
 import 'package:app/config/styles.dart';
+import 'package:app/widgets/animal_form.dart';
 import 'package:flutter/material.dart';
 
 class PetFormPage extends StatefulWidget {
@@ -11,6 +12,8 @@ class PetFormPage extends StatefulWidget {
 }
 
 class _PetFormPageState extends State<PetFormPage> {
+  final _animalFormKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     // TODO: get animal
@@ -36,9 +39,9 @@ class _PetFormPageState extends State<PetFormPage> {
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            Center(child: Text('Animal')),
+            AnimalForm(formKey: _animalFormKey),
             Center(child: Text('Tutor')),
             Center(child: Text('Saúde')),
             Center(child: Text('Comportamento')),
