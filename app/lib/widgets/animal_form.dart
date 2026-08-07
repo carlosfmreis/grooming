@@ -18,14 +18,14 @@ class _AnimalFormState extends State<AnimalForm> {
   late TextEditingController _nameController;
   late TextEditingController _speciesController;
   late TextEditingController _breedController;
-  late TextEditingController _colorController;
-  late TextEditingController _eyeColorController;
   late TextEditingController _weightController;
   late TextEditingController _previousWeightController;
   late TextEditingController _microchipController;
   late TextEditingController _notesController;
 
-  String _gender = 'Macho';
+  AnimalGender _gender = AnimalGender.male;
+  AnimalColor _color = AnimalColor.black;
+  AnimalEyeColor _eyeColor = AnimalEyeColor.brown;
   bool _isNeutered = false;
   CoatType _coatType = CoatType.short;
   DateTime _birthDate = DateTime.now();
@@ -41,8 +41,6 @@ class _AnimalFormState extends State<AnimalForm> {
     _nameController = TextEditingController(text: animal?.name ?? '');
     _speciesController = TextEditingController(text: animal?.species ?? '');
     _breedController = TextEditingController(text: animal?.breed ?? '');
-    _colorController = TextEditingController(text: animal?.color ?? '');
-    _eyeColorController = TextEditingController(text: animal?.eyeColor ?? '');
     _weightController = TextEditingController(
       text: animal?.currentWeight.toString() ?? '',
     );
@@ -51,8 +49,9 @@ class _AnimalFormState extends State<AnimalForm> {
     );
     _microchipController = TextEditingController(text: animal?.microchip ?? '');
     _notesController = TextEditingController(text: animal?.notes ?? '');
-
-    _gender = animal?.gender ?? 'Macho';
+    _gender = animal?.gender ?? AnimalGender.male;
+    _color = animal?.color ?? AnimalColor.black;
+    _eyeColor = animal?.eyeColor ?? AnimalEyeColor.brown;
     _isNeutered = animal?.isNeutered ?? false;
     _coatType = animal?.coatType ?? CoatType.short;
     _birthDate = animal?.birthDate ?? DateTime.now();
@@ -63,8 +62,6 @@ class _AnimalFormState extends State<AnimalForm> {
     _nameController.dispose();
     _speciesController.dispose();
     _breedController.dispose();
-    _colorController.dispose();
-    _eyeColorController.dispose();
     _weightController.dispose();
     _previousWeightController.dispose();
     _microchipController.dispose();
@@ -129,13 +126,17 @@ class _AnimalFormState extends State<AnimalForm> {
 
             const SizedBox(height: 12),
 
-            DropdownButtonFormField<String>(
+            DropdownButtonFormField<AnimalGender>(
               initialValue: _gender,
               decoration: const InputDecoration(labelText: 'Sexo'),
-              items: const [
-                DropdownMenuItem(value: 'Macho', child: Text('Macho')),
-                DropdownMenuItem(value: 'Fêmea', child: Text('Fêmea')),
-              ],
+              items: AnimalGender.values
+                  .map(
+                    (gender) => DropdownMenuItem(
+                      value: gender,
+                      child: Text(gender.displayName),
+                    ),
+                  )
+                  .toList(),
               onChanged: (value) {
                 setState(() => _gender = value!);
               },
@@ -162,10 +163,20 @@ class _AnimalFormState extends State<AnimalForm> {
               onTap: _selectBirthDate,
             ),
 
-            TextFormField(
-              controller: _colorController,
+            DropdownButtonFormField<AnimalColor>(
+              initialValue: _color,
               decoration: const InputDecoration(labelText: 'Cor'),
-              validator: (value) => value!.isEmpty ? 'Obrigatório' : null,
+              items: AnimalColor.values
+                  .map(
+                    (color) => DropdownMenuItem(
+                      value: color,
+                      child: Text(color.displayName),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (value) {
+                setState(() => _color = value!);
+              },
             ),
 
             const SizedBox(height: 12),
@@ -188,10 +199,20 @@ class _AnimalFormState extends State<AnimalForm> {
 
             const SizedBox(height: 12),
 
-            TextFormField(
-              controller: _eyeColorController,
+            DropdownButtonFormField<AnimalEyeColor>(
+              initialValue: _eyeColor,
               decoration: const InputDecoration(labelText: 'Cor dos olhos'),
-              validator: (value) => value!.isEmpty ? 'Obrigatório' : null,
+              items: AnimalEyeColor.values
+                  .map(
+                    (color) => DropdownMenuItem(
+                      value: color,
+                      child: Text(color.displayName),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (value) {
+                setState(() => _eyeColor = value!);
+              },
             ),
 
             const SizedBox(height: 12),

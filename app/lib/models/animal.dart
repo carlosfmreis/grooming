@@ -2,30 +2,60 @@ import 'package:app/models/behaviour.dart';
 import 'package:app/models/health.dart';
 import 'package:app/models/owner.dart';
 
-enum CoatType {
-  short,
-  medium,
-  long,
-  double,
-  wiry,
-  curly;
+enum AnimalGender {
+  male('Macho'),
+  female('Fêmea');
 
-  String get displayName {
-    switch (this) {
-      case CoatType.short:
-        return 'Curto';
-      case CoatType.medium:
-        return 'Médio';
-      case CoatType.long:
-        return 'Comprido';
-      case CoatType.double:
-        return 'Duplo';
-      case CoatType.wiry:
-        return 'Cerdoso';
-      case CoatType.curly:
-        return 'Encaracolado';
-    }
-  }
+  const AnimalGender(this.displayName);
+
+  final String displayName;
+}
+
+enum AnimalColor {
+  black('Preto'),
+  white('Branco'),
+  brown('Castanho'),
+  gray('Cinza'),
+  golden('Dourado'),
+  caramel('Caramelo'),
+  beige('Bege'),
+  orange('Laranja'),
+  spotted('Malhado'),
+  striped('Tigrado');
+
+  const AnimalColor(this.displayName);
+
+  final String displayName;
+}
+
+enum AnimalEyeColor {
+  brown('Castanho'),
+  darkBrown('Castanho Escuro'),
+  amber('Âmbar'),
+  yellow('Amarelo'),
+  hazel('Avelã'),
+  green('Verde'),
+  blue('Azul'),
+  gray('Cinza'),
+  black('Preto'),
+  oddEyed('Heterocromia');
+
+  const AnimalEyeColor(this.displayName);
+
+  final String displayName;
+}
+
+enum CoatType {
+  short('Curto'),
+  medium('Médio'),
+  long('Comprido'),
+  double('Duplo'),
+  wiry('Cerdoso'),
+  curly('Encaracolado');
+
+  const CoatType(this.displayName);
+
+  final String displayName;
 }
 
 class Animal {
@@ -33,12 +63,12 @@ class Animal {
   final String name;
   final String species;
   final String breed;
-  final String gender;
+  final AnimalGender gender;
   final bool isNeutered;
   final DateTime birthDate;
-  final String color;
+  final AnimalColor color;
   final CoatType coatType;
-  final String eyeColor;
+  final AnimalEyeColor? eyeColor;
   final double currentWeight;
   final double? previousWeight;
   final String? microchip;
@@ -58,7 +88,7 @@ class Animal {
     required this.birthDate,
     required this.color,
     required this.coatType,
-    required this.eyeColor,
+    this.eyeColor,
     required this.currentWeight,
     this.previousWeight,
     this.microchip,
@@ -98,17 +128,17 @@ class Animal {
       name: map['name'] as String,
       species: map['species'] as String,
       breed: map['breed'] as String,
-      gender: map['gender'] as String,
+      gender: map['gender'] as AnimalGender,
       isNeutered: map['isNeutered'] is int
           ? (map['isNeutered'] == 1)
           : map['isNeutered'] as bool,
       birthDate: DateTime.parse(map['birthDate'] as String),
-      color: map['color'] as String,
+      color: map['color'] as AnimalColor,
       coatType: CoatType.values.firstWhere(
         (e) => e.toString().split('.').last == map['coatType'],
         orElse: () => CoatType.short,
       ),
-      eyeColor: map['eyeColor'] as String,
+      eyeColor: map['eyeColor'] as AnimalEyeColor?,
       currentWeight: (map['currentWeight'] as num).toDouble(),
       previousWeight: map['previousWeight'] != null
           ? (map['previousWeight'] as num).toDouble()
@@ -130,12 +160,12 @@ class Animal {
       'name': name,
       'species': species,
       'breed': breed,
-      'gender': gender,
+      'gender': gender.toString().split('.').last,
       'isNeutered': isNeutered,
       'birthDate': birthDate.toIso8601String(),
-      'color': color,
+      'color': color.toString().split('.').last,
       'coatType': coatType.toString().split('.').last,
-      'eyeColor': eyeColor,
+      'eyeColor': eyeColor?.toString().split('.').last,
       'currentWeight': currentWeight,
       'previousWeight': previousWeight,
       'microchip': microchip,
