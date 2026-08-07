@@ -65,11 +65,11 @@ class Animal {
   final String breed;
   final AnimalGender gender;
   final bool isNeutered;
-  final DateTime birthDate;
+  final DateTime? birthDate;
   final AnimalColor color;
   final CoatType coatType;
   final AnimalEyeColor? eyeColor;
-  final double currentWeight;
+  final double? currentWeight;
   final double? previousWeight;
   final String? microchip;
   final String? photo;
@@ -85,11 +85,11 @@ class Animal {
     required this.breed,
     required this.gender,
     required this.isNeutered,
-    required this.birthDate,
+    this.birthDate,
     required this.color,
     required this.coatType,
     this.eyeColor,
-    required this.currentWeight,
+    this.currentWeight,
     this.previousWeight,
     this.microchip,
     this.photo,
@@ -98,29 +98,6 @@ class Animal {
     this.health,
     this.behaviour,
   });
-
-  String get age {
-    final today = DateTime.now();
-    int years = today.year - birthDate.year;
-    int months = today.month - birthDate.month;
-
-    if (months < 0) {
-      years--;
-      months += 12;
-    }
-    if (today.day < birthDate.day) {
-      months--;
-      if (months < 0) {
-        years--;
-        months += 11;
-      }
-    }
-
-    if (years == 0) {
-      return '$months ${months == 1 ? "mês" : "meses"}';
-    }
-    return '$years ${years == 1 ? "ano" : "anos"} e $months ${months == 1 ? "mês" : "meses"}';
-  }
 
   factory Animal.fromMap(Map<String, dynamic> map) {
     return Animal(
@@ -132,14 +109,15 @@ class Animal {
       isNeutered: map['isNeutered'] is int
           ? (map['isNeutered'] == 1)
           : map['isNeutered'] as bool,
-      birthDate: DateTime.parse(map['birthDate'] as String),
+      birthDate: map['birthDate'] != null
+          ? DateTime.parse(map['birthDate'] as String)
+          : null,
       color: map['color'] as AnimalColor,
-      coatType: CoatType.values.firstWhere(
-        (e) => e.toString().split('.').last == map['coatType'],
-        orElse: () => CoatType.short,
-      ),
+      coatType: map['coatRype'] as CoatType,
       eyeColor: map['eyeColor'] as AnimalEyeColor?,
-      currentWeight: (map['currentWeight'] as num).toDouble(),
+      currentWeight: map['currentWeight'] != null
+          ? (map['currentWeight'] as num).toDouble()
+          : null,
       previousWeight: map['previousWeight'] != null
           ? (map['previousWeight'] as num).toDouble()
           : null,
@@ -162,7 +140,7 @@ class Animal {
       'breed': breed,
       'gender': gender.toString().split('.').last,
       'isNeutered': isNeutered,
-      'birthDate': birthDate.toIso8601String(),
+      'birthDate': birthDate?.toIso8601String(),
       'color': color.toString().split('.').last,
       'coatType': coatType.toString().split('.').last,
       'eyeColor': eyeColor?.toString().split('.').last,

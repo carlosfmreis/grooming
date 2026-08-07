@@ -28,7 +28,7 @@ class _AnimalFormState extends State<AnimalForm> {
   AnimalEyeColor _eyeColor = AnimalEyeColor.brown;
   bool _isNeutered = false;
   CoatType _coatType = CoatType.short;
-  DateTime _birthDate = DateTime.now();
+  DateTime? _birthDate;
   Uint8List? _photoBytes;
   String? _photoName;
 
@@ -54,7 +54,7 @@ class _AnimalFormState extends State<AnimalForm> {
     _eyeColor = animal?.eyeColor ?? AnimalEyeColor.brown;
     _isNeutered = animal?.isNeutered ?? false;
     _coatType = animal?.coatType ?? CoatType.short;
-    _birthDate = animal?.birthDate ?? DateTime.now();
+    _birthDate = animal?.birthDate;
   }
 
   @override
@@ -104,7 +104,7 @@ class _AnimalFormState extends State<AnimalForm> {
           children: [
             TextFormField(
               controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Nome'),
+              decoration: const InputDecoration(labelText: 'Nome *'),
               validator: (value) => value!.isEmpty ? 'Obrigatório' : null,
             ),
 
@@ -112,7 +112,7 @@ class _AnimalFormState extends State<AnimalForm> {
 
             TextFormField(
               controller: _speciesController,
-              decoration: const InputDecoration(labelText: 'Espécie'),
+              decoration: const InputDecoration(labelText: 'Espécie *'),
               validator: (value) => value!.isEmpty ? 'Obrigatório' : null,
             ),
 
@@ -120,7 +120,7 @@ class _AnimalFormState extends State<AnimalForm> {
 
             TextFormField(
               controller: _breedController,
-              decoration: const InputDecoration(labelText: 'Raça'),
+              decoration: const InputDecoration(labelText: 'Raça *'),
               validator: (value) => value!.isEmpty ? 'Obrigatório' : null,
             ),
 
@@ -128,7 +128,7 @@ class _AnimalFormState extends State<AnimalForm> {
 
             DropdownButtonFormField<AnimalGender>(
               initialValue: _gender,
-              decoration: const InputDecoration(labelText: 'Sexo'),
+              decoration: const InputDecoration(labelText: 'Sexo *'),
               items: AnimalGender.values
                   .map(
                     (gender) => DropdownMenuItem(
@@ -146,7 +146,7 @@ class _AnimalFormState extends State<AnimalForm> {
 
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('Esterilizado'),
+              title: const Text('Esterilizado *'),
               value: _isNeutered,
               onChanged: (value) {
                 setState(() => _isNeutered = value);
@@ -156,16 +156,18 @@ class _AnimalFormState extends State<AnimalForm> {
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Data de nascimento'),
-              subtitle: Text(
-                '${_birthDate.day}/${_birthDate.month}/${_birthDate.year}',
-              ),
+              subtitle: _birthDate != null
+                  ? Text(
+                      '${_birthDate?.day}/${_birthDate?.month}/${_birthDate?.year}',
+                    )
+                  : null,
               trailing: const Icon(Icons.calendar_month),
               onTap: _selectBirthDate,
             ),
 
             DropdownButtonFormField<AnimalColor>(
               initialValue: _color,
-              decoration: const InputDecoration(labelText: 'Cor'),
+              decoration: const InputDecoration(labelText: 'Cor *'),
               items: AnimalColor.values
                   .map(
                     (color) => DropdownMenuItem(
@@ -183,7 +185,7 @@ class _AnimalFormState extends State<AnimalForm> {
 
             DropdownButtonFormField<CoatType>(
               initialValue: _coatType,
-              decoration: const InputDecoration(labelText: 'Tipo de pelagem'),
+              decoration: const InputDecoration(labelText: 'Tipo de pelagem *'),
               items: CoatType.values
                   .map(
                     (coat) => DropdownMenuItem(
@@ -223,17 +225,6 @@ class _AnimalFormState extends State<AnimalForm> {
                 decimal: true,
               ),
               decoration: const InputDecoration(labelText: 'Peso atual (kg)'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Obrigatório';
-                }
-
-                if (double.tryParse(value) == null) {
-                  return 'Peso inválido';
-                }
-
-                return null;
-              },
             ),
 
             const SizedBox(height: 12),
