@@ -3,8 +3,8 @@ class Owner {
   String name;
   String mainContact;
   String? secondaryContact;
-  String email;
-  String address;
+  String? email;
+  String? address;
   List<String>? authorizedPersons;
 
   Owner({
@@ -12,8 +12,8 @@ class Owner {
     required this.name,
     required this.mainContact,
     this.secondaryContact,
-    required this.email,
-    required this.address,
+    this.email,
+    this.address,
     this.authorizedPersons,
   });
 
@@ -23,8 +23,8 @@ class Owner {
       name: json['name'] as String,
       mainContact: json['mainContact'] as String,
       secondaryContact: json['secondaryContact'] as String?,
-      email: json['email'] as String,
-      address: json['address'] as String,
+      email: json['email'] as String?,
+      address: json['address'] as String?,
       authorizedPersons:
           json['authorizedPersons']?.split(',').toList() as List<String>?,
     );
