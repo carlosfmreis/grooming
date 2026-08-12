@@ -1,5 +1,6 @@
 import 'package:app/config/styles.dart';
 import 'package:app/widgets/animal_form.dart';
+import 'package:app/widgets/health_form.dart';
 import 'package:app/widgets/tutor_form.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,7 @@ class PetFormPage extends StatefulWidget {
 class _PetFormPageState extends State<PetFormPage> {
   final _animalFormKey = GlobalKey<FormState>();
   final _tutorFormKey = GlobalKey<FormState>();
+  final _healthFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -45,7 +47,7 @@ class _PetFormPageState extends State<PetFormPage> {
           children: [
             AnimalForm(formKey: _animalFormKey),
             TutorForm(formKey: _tutorFormKey),
-            Center(child: Text('Saúde')),
+            HealthForm(formKey: _healthFormKey),
             Center(child: Text('Comportamento')),
           ],
         ),
