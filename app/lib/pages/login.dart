@@ -1,5 +1,6 @@
 import 'package:app/config/routes.dart';
 import 'package:app/utils/auth.dart';
+import 'package:app/utils/cookies.dart';
 import 'package:app/utils/env.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -65,6 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                               _formKey.currentState?.save();
                               if (password == AppEnvUtils.getAuthPass()) {
                                 AuthUtils.isAuthenticated = true;
+                                CookiesUtils.setAuthCookie();
                                 context.go(Routes.home);
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(

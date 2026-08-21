@@ -5,12 +5,17 @@ import 'package:app/pages/login.dart';
 import 'package:app/pages/pet_form.dart';
 import 'package:app/pages/pet_view.dart';
 import 'package:app/utils/auth.dart';
+import 'package:app/utils/cookies.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: Routes.login,
   redirect: (BuildContext context, GoRouterState state) {
+    if (CookiesUtils.hasAuthCookie()) {
+      AuthUtils.isAuthenticated = true;
+    }
+
     final bool loggedIn = AuthUtils.isAuthenticated;
     final bool isGoingToLogin = state.matchedLocation == Routes.login;
 
