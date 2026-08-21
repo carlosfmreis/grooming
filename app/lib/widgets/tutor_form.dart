@@ -107,7 +107,9 @@ class _TutorFormState extends State<TutorForm> {
 
             TextField(
               controller: _namesController,
-              decoration: const InputDecoration(labelText: 'Pessoas Autorizadas'),
+              decoration: const InputDecoration(
+                labelText: 'Pessoas Autorizadas',
+              ),
               onSubmitted: (value) {
                 setState(() {
                   _names.add(value.trim());
@@ -134,6 +136,8 @@ class _TutorFormState extends State<TutorForm> {
                   )
                   .toList(),
             ),
+
+            const SizedBox(height: 44),
           ],
         ),
       ),

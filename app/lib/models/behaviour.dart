@@ -1,24 +1,24 @@
 class Behaviour {
-  final bool sociable;
-  final bool scared;
-  final bool anxious;
-  final bool nervous;
-  final bool energetic;
-  final bool bites;
-  final bool growls;
-  final bool runs;
-  final bool noDryer;
-  final bool noMachine;
-  final bool noScissors;
-  final bool noNailClipper;
-  final bool noEarCleaner;
-  final bool noBrushing;
-  final bool needsMuzzle;
-  final bool needsTwoPersons;
-  final bool hasServiceBiteHistory;
-  final bool reactsToOtherAnimals;
-  final bool reactsToMen;
-  final bool reactsToWomen;
+  bool sociable;
+  bool scared;
+  bool anxious;
+  bool nervous;
+  bool energetic;
+  bool bites;
+  bool growls;
+  bool runs;
+  bool noDryer;
+  bool noMachine;
+  bool noScissors;
+  bool noNailClipper;
+  bool noEarCleaner;
+  bool noBrushing;
+  bool needsMuzzle;
+  bool needsTwoPersons;
+  bool hasServiceBiteHistory;
+  bool reactsToOtherAnimals;
+  bool reactsToMen;
+  bool reactsToWomen;
 
   Behaviour({
     this.sociable = false,

@@ -232,6 +232,8 @@ class _HealthFormState extends State<HealthForm> {
                 labelText: 'Restrições médicas',
               ),
             ),
+
+            const SizedBox(height: 44),
           ],
         ),
       ),

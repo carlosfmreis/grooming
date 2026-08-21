@@ -274,6 +274,8 @@ class _AnimalFormState extends State<AnimalForm> {
                 alignLabelWithHint: true,
               ),
             ),
+
+            const SizedBox(height: 44),
           ],
         ),
       ),

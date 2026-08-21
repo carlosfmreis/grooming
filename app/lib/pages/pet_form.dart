@@ -1,5 +1,6 @@
 import 'package:app/config/styles.dart';
 import 'package:app/widgets/animal_form.dart';
+import 'package:app/widgets/behaviour_form.dart';
 import 'package:app/widgets/health_form.dart';
 import 'package:app/widgets/tutor_form.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class _PetFormPageState extends State<PetFormPage> {
   final _animalFormKey = GlobalKey<FormState>();
   final _tutorFormKey = GlobalKey<FormState>();
   final _healthFormKey = GlobalKey<FormState>();
+  final _behaviourFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -48,7 +50,7 @@ class _PetFormPageState extends State<PetFormPage> {
             AnimalForm(formKey: _animalFormKey),
             TutorForm(formKey: _tutorFormKey),
             HealthForm(formKey: _healthFormKey),
-            Center(child: Text('Comportamento')),
+            BehaviourForm(formKey: _behaviourFormKey),
           ],
         ),
         floatingActionButton: IconButton(
