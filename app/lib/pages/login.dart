@@ -1,11 +1,20 @@
 import 'package:app/config/routes.dart';
+import 'package:app/utils/auth.dart';
+import 'package:app/utils/env.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +38,20 @@ class LoginPage extends StatelessWidget {
                   TextFormField(
                     obscureText: true,
                     textInputAction: TextInputAction.done,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'Palavra-passe',
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.lock_outlined),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, insira uma palavra-passe.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      password = value ?? '';
+                    },
                   ),
                   const SizedBox(height: 16),
                   Row(
@@ -45,7 +63,22 @@ class LoginPage extends StatelessWidget {
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
                               _formKey.currentState?.save();
-                              context.go(Routes.home);
+                              if (password == AppEnvUtils.getAuthPass()) {
+                                AuthUtils.isAuthenticated = true;
+                                context.go(Routes.home);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Row(
+                                      children: [
+                                        Icon(Icons.error, color: Colors.red),
+                                        SizedBox(width: 8),
+                                        Text('Palavra-passe incorreta.'),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
                             }
                           },
                           icon: const Icon(Icons.login),
