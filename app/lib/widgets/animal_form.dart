@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 
 class AnimalForm extends StatefulWidget {
   final GlobalKey<FormState> formKey;
-  final Animal? animal;
+  final Animal? data;
 
-  const AnimalForm({super.key, required this.formKey, this.animal});
+  const AnimalForm({super.key, required this.formKey, this.data});
 
   @override
   State<AnimalForm> createState() => _AnimalFormState();
@@ -36,25 +36,27 @@ class _AnimalFormState extends State<AnimalForm> {
   void initState() {
     super.initState();
 
-    final animal = widget.animal;
-
-    _nameController = TextEditingController(text: animal?.name ?? '');
-    _speciesController = TextEditingController(text: animal?.species ?? '');
-    _breedController = TextEditingController(text: animal?.breed ?? '');
+    _nameController = TextEditingController(text: widget.data?.name ?? '');
+    _speciesController = TextEditingController(
+      text: widget.data?.species ?? '',
+    );
+    _breedController = TextEditingController(text: widget.data?.breed ?? '');
     _weightController = TextEditingController(
-      text: animal?.currentWeight.toString() ?? '',
+      text: widget.data?.currentWeight.toString() ?? '',
     );
     _previousWeightController = TextEditingController(
-      text: animal?.previousWeight?.toString() ?? '',
+      text: widget.data?.previousWeight?.toString() ?? '',
     );
-    _microchipController = TextEditingController(text: animal?.microchip ?? '');
-    _notesController = TextEditingController(text: animal?.notes ?? '');
-    _gender = animal?.gender ?? AnimalGender.male;
-    _color = animal?.color ?? AnimalColor.black;
-    _eyeColor = animal?.eyeColor ?? AnimalEyeColor.brown;
-    _isNeutered = animal?.isNeutered ?? false;
-    _coatType = animal?.coatType ?? CoatType.short;
-    _birthDate = animal?.birthDate;
+    _microchipController = TextEditingController(
+      text: widget.data?.microchip ?? '',
+    );
+    _notesController = TextEditingController(text: widget.data?.notes ?? '');
+    _gender = widget.data?.gender ?? AnimalGender.male;
+    _color = widget.data?.color ?? AnimalColor.black;
+    _eyeColor = widget.data?.eyeColor ?? AnimalEyeColor.brown;
+    _isNeutered = widget.data?.isNeutered ?? false;
+    _coatType = widget.data?.coatType ?? CoatType.short;
+    _birthDate = widget.data?.birthDate;
   }
 
   @override
