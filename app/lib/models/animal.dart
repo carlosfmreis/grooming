@@ -113,7 +113,7 @@ class Animal {
           ? DateTime.parse(map['birthDate'] as String)
           : null,
       color: map['color'] as AnimalColor,
-      coatType: map['coatRype'] as CoatType,
+      coatType: map['coatType'] as CoatType,
       eyeColor: map['eyeColor'] as AnimalEyeColor?,
       currentWeight: map['currentWeight'] != null
           ? (map['currentWeight'] as num).toDouble()
