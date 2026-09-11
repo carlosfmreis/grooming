@@ -1,7 +1,8 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 enum AppEnv {
-  authPass("AUTH_PASSWORD");
+  authPass('AUTH_PASSWORD'),
+  apiPass('API_PASSWORD');
 
   const AppEnv(this.key);
 
@@ -15,5 +16,9 @@ class AppEnvUtils {
 
   static String getAuthPass() {
     return _get(AppEnv.authPass.key);
+  }
+
+  static String getApiPass() {
+    return _get(AppEnv.apiPass.key);
   }
 }
