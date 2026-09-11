@@ -74,8 +74,11 @@ class Animal {
   String? microchip;
   String? photo;
   String? notes;
+  int? ownerId;
   Owner? owner;
+  int? healthId;
   Health? health;
+  int? behaviourId;
   Behaviour? behaviour;
 
   Animal({
@@ -94,8 +97,11 @@ class Animal {
     this.microchip,
     this.photo,
     this.notes,
+    this.ownerId,
     this.owner,
+    this.healthId,
     this.health,
+    this.behaviourId,
     this.behaviour,
   });
 
@@ -124,8 +130,13 @@ class Animal {
       microchip: map['microchip'] as String?,
       photo: map['photo'] as String?,
       notes: map['notes'] as String?,
+      ownerId: map['ownerId'] != null ? int.tryParse(map['ownerId']) : null,
       owner: map['owner'] != null ? Owner.fromMap(map['owner']) : null,
+      healthId: map['healthId'] != null ? int.tryParse(map['healthId']) : null,
       health: map['health'] != null ? Health.fromMap(map['health']) : null,
+      behaviourId: map['behaviourId'] != null
+          ? int.tryParse(map['behaviourId'])
+          : null,
       behaviour: map['behaviour'] != null
           ? Behaviour.fromMap(map['behaviour'])
           : null,
@@ -149,8 +160,11 @@ class Animal {
       'microchip': microchip,
       'photo': photo,
       'notes': notes,
+      'ownerId': ownerId,
       'owner': owner?.toMap(),
+      'healthId': healthId,
       'health': health?.toMap(),
+      'behaviourId': behaviourId,
       'behaviour': behaviour?.toMap(),
     };
   }
