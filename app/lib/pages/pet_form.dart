@@ -67,21 +67,35 @@ class _PetFormPageState extends State<PetFormPage> {
         ),
         floatingActionButton: IconButton(
           onPressed: () {
-            final isValid =
-                (_animalFormKey.currentState?.validate() ?? false) &&
-                (_tutorFormKey.currentState?.validate() ?? false) &&
-                (_healthFormKey.currentState?.validate() ?? false) &&
-                (_behaviourFormKey.currentState?.validate() ?? false);
-            if (isValid) {
+            final isAnimalValid =
+                _animalFormKey.currentState?.validate() ?? false;
+            final isTutorValid =
+                _tutorFormKey.currentState?.validate() ?? false;
+            final isHealthValid =
+                _healthFormKey.currentState?.validate() ?? false;
+            final isBehaviourValid =
+                _behaviourFormKey.currentState?.validate() ?? false;
+            if (isAnimalValid &&
+                isTutorValid &&
+                isHealthValid &&
+                isBehaviourValid) {
               _animal.owner = _owner;
               _animal.behaviour = _behaviour;
               _animal.health = _health;
-              print(_animal.name ?? 'error');
             } else {
-              print('form is not valid');
+              showDialog(
+                context: context,
+                builder: (context) => const AlertDialog(
+                  icon: Icon(Icons.warning, color: Colors.red),
+                  content: Text(
+                    'Exitem erros no formulário.',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              );
             }
           },
-          icon: Icon(Icons.save, color: Colors.white),
+          icon: const Icon(Icons.save, color: Colors.white),
           style: AppStyles.floatingActionButton,
         ),
       ),

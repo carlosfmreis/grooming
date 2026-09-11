@@ -135,6 +135,7 @@ class _AnimalFormState extends State<AnimalForm>
                     ),
                   )
                   .toList(),
+              validator: (value) => value == null ? 'Obrigatório' : null,
               onChanged: (value) {
                 setState(() => widget.data?.gender = value);
               },
@@ -174,6 +175,7 @@ class _AnimalFormState extends State<AnimalForm>
                     ),
                   )
                   .toList(),
+              validator: (value) => value == null ? 'Obrigatório' : null,
               onChanged: (value) {
                 setState(() => widget.data?.color = value);
               },
@@ -192,6 +194,7 @@ class _AnimalFormState extends State<AnimalForm>
                     ),
                   )
                   .toList(),
+              validator: (value) => value == null ? 'Obrigatório' : null,
               onChanged: (value) {
                 setState(() => widget.data?.coatType = value);
               },

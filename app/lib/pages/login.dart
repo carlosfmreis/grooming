@@ -69,14 +69,16 @@ class _LoginPageState extends State<LoginPage> {
                                 CookiesUtils.setAuthCookie();
                                 context.go(Routes.home);
                               } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Row(
-                                      children: [
-                                        Icon(Icons.error, color: Colors.red),
-                                        SizedBox(width: 8),
-                                        Text('Palavra-passe incorreta.'),
-                                      ],
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => const AlertDialog(
+                                    icon: Icon(
+                                      Icons.warning,
+                                      color: Colors.red,
+                                    ),
+                                    content: Text(
+                                      'Palavra-passe incorreta.',
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                 );
