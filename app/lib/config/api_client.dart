@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class ApiClient {
-  final String _baseUrl = 'http://localhost:8001/api';
+  final String _baseUrl = 'http://google.com';
 
   late final Dio _dio;
 

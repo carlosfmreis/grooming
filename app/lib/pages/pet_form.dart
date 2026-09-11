@@ -1,3 +1,4 @@
+import 'package:app/config/api_client.dart';
 import 'package:app/config/styles.dart';
 import 'package:app/models/animal.dart';
 import 'package:app/models/behaviour.dart';
@@ -19,6 +20,8 @@ class PetFormPage extends StatefulWidget {
 }
 
 class _PetFormPageState extends State<PetFormPage> {
+  final _apiClient = ApiClient();
+
   final _animalFormKey = GlobalKey<FormState>();
   final _tutorFormKey = GlobalKey<FormState>();
   final _healthFormKey = GlobalKey<FormState>();
@@ -28,6 +31,8 @@ class _PetFormPageState extends State<PetFormPage> {
   late final Owner _owner;
   late final Behaviour _behaviour;
   late final Health _health;
+
+  bool _isSaving = false;
 
   @override
   void initState() {
@@ -66,36 +71,56 @@ class _PetFormPageState extends State<PetFormPage> {
           ],
         ),
         floatingActionButton: IconButton(
-          onPressed: () {
-            final isAnimalValid =
-                _animalFormKey.currentState?.validate() ?? false;
-            final isTutorValid =
-                _tutorFormKey.currentState?.validate() ?? false;
-            final isHealthValid =
-                _healthFormKey.currentState?.validate() ?? false;
-            final isBehaviourValid =
-                _behaviourFormKey.currentState?.validate() ?? false;
-            if (isAnimalValid &&
-                isTutorValid &&
-                isHealthValid &&
-                isBehaviourValid) {
-              _animal.owner = _owner;
-              _animal.behaviour = _behaviour;
-              _animal.health = _health;
-            } else {
-              showDialog(
-                context: context,
-                builder: (context) => const AlertDialog(
-                  icon: Icon(Icons.warning, color: Colors.red),
-                  content: Text(
-                    'Exitem erros no formulário.',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              );
-            }
-          },
-          icon: const Icon(Icons.save, color: Colors.white),
+          onPressed: _isSaving
+              ? null
+              : () {
+                  final isAnimalValid =
+                      _animalFormKey.currentState?.validate() ?? false;
+                  final isTutorValid =
+                      _tutorFormKey.currentState?.validate() ?? false;
+                  final isHealthValid =
+                      _healthFormKey.currentState?.validate() ?? false;
+                  final isBehaviourValid =
+                      _behaviourFormKey.currentState?.validate() ?? false;
+                  if (isAnimalValid &&
+                      isTutorValid &&
+                      isHealthValid &&
+                      isBehaviourValid) {
+                    setState(() {
+                      _isSaving = true;
+                    });
+                    _animal.owner = _owner;
+                    _animal.behaviour = _behaviour;
+                    _animal.health = _health;
+
+                    _apiClient
+                        .post('/animals', data: _animal.toMap())
+                        .then((response) {
+                          setState(() {
+                            _isSaving = false;
+                          });
+                        })
+                        .catchError((error) {
+                          setState(() {
+                            _isSaving = false;
+                          });
+                        });
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) => const AlertDialog(
+                        icon: Icon(Icons.warning, color: Colors.red),
+                        content: Text(
+                          'Exitem erros no formulário.',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
+                  }
+                },
+          icon: _isSaving
+              ? CircularProgressIndicator.adaptive()
+              : Icon(Icons.save, color: Colors.white),
           style: AppStyles.floatingActionButton,
         ),
       ),
