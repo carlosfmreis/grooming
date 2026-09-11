@@ -11,24 +11,16 @@ class HealthForm extends StatefulWidget {
   State<HealthForm> createState() => _HealthFormState();
 }
 
-class _HealthFormState extends State<HealthForm> {
+class _HealthFormState extends State<HealthForm>
+    with AutomaticKeepAliveClientMixin {
   late TextEditingController _vetController;
   late TextEditingController _clinicContactController;
   late TextEditingController _diseasesController;
   late TextEditingController _allergiesController;
   late TextEditingController _restrictionsController;
 
-  late bool _vaccinated;
-  late bool _internalDeworming;
-  late bool _externalDeworming;
-  late bool _heartProblems;
-  late bool _respiratoryProblems;
-  late bool _jointProblems;
-  late bool _skinProblems;
-  late bool _earProblems;
-  late bool _sightProblems;
-  late bool _deaf;
-  late bool _blind;
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -45,17 +37,6 @@ class _HealthFormState extends State<HealthForm> {
     _restrictionsController = TextEditingController(
       text: widget.data?.medicalRestrictions ?? '',
     );
-    _vaccinated = widget.data?.vaccinated ?? false;
-    _internalDeworming = widget.data?.internalDeworming ?? false;
-    _externalDeworming = widget.data?.externalDeworming ?? false;
-    _heartProblems = widget.data?.heartProblems ?? false;
-    _respiratoryProblems = widget.data?.respiratoryProblems ?? false;
-    _jointProblems = widget.data?.jointProblems ?? false;
-    _skinProblems = widget.data?.skinProblems ?? false;
-    _earProblems = widget.data?.earProblems ?? false;
-    _sightProblems = widget.data?.sightProblems ?? false;
-    _deaf = widget.data?.deaf ?? false;
-    _blind = widget.data?.blind ?? false;
     super.initState();
   }
 
@@ -71,6 +52,7 @@ class _HealthFormState extends State<HealthForm> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Form(
       key: widget.formKey,
       child: SingleChildScrollView(
@@ -82,6 +64,9 @@ class _HealthFormState extends State<HealthForm> {
               decoration: const InputDecoration(
                 labelText: 'Veterinário habitual',
               ),
+              onChanged: (value) {
+                widget.data?.usualVet = value;
+              },
             ),
 
             const SizedBox(height: 12),
@@ -89,6 +74,9 @@ class _HealthFormState extends State<HealthForm> {
             TextFormField(
               controller: _vetController,
               decoration: const InputDecoration(labelText: 'Clínica habitual'),
+              onChanged: (value) {
+                widget.data?.vetClinic = value;
+              },
             ),
 
             const SizedBox(height: 12),
@@ -96,9 +84,9 @@ class _HealthFormState extends State<HealthForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Vacinado'),
-              value: _vaccinated,
+              value: widget.data?.vaccinated ?? false,
               onChanged: (value) {
-                setState(() => _vaccinated = value);
+                setState(() => widget.data?.vaccinated = value);
               },
             ),
 
@@ -107,9 +95,9 @@ class _HealthFormState extends State<HealthForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Desparasitação interna'),
-              value: _internalDeworming,
+              value: widget.data?.internalDeworming ?? false,
               onChanged: (value) {
-                setState(() => _internalDeworming = value);
+                setState(() => widget.data?.internalDeworming = value);
               },
             ),
 
@@ -118,9 +106,9 @@ class _HealthFormState extends State<HealthForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Desparasitação externa'),
-              value: _externalDeworming,
+              value: widget.data?.externalDeworming ?? false,
               onChanged: (value) {
-                setState(() => _externalDeworming = value);
+                setState(() => widget.data?.externalDeworming = value);
               },
             ),
 
@@ -129,6 +117,9 @@ class _HealthFormState extends State<HealthForm> {
               decoration: const InputDecoration(
                 labelText: 'Doenças conhecidas',
               ),
+              onChanged: (value) {
+                widget.data?.knownDiseases = value;
+              },
             ),
 
             const SizedBox(height: 12),
@@ -136,6 +127,9 @@ class _HealthFormState extends State<HealthForm> {
             TextFormField(
               controller: _allergiesController,
               decoration: const InputDecoration(labelText: 'Alergias'),
+              onChanged: (value) {
+                widget.data?.allergies = value;
+              },
             ),
 
             const SizedBox(height: 12),
@@ -143,9 +137,9 @@ class _HealthFormState extends State<HealthForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Problemas cardíacos'),
-              value: _heartProblems,
+              value: widget.data?.heartProblems ?? false,
               onChanged: (value) {
-                setState(() => _heartProblems = value);
+                setState(() => widget.data?.heartProblems = value);
               },
             ),
 
@@ -154,9 +148,9 @@ class _HealthFormState extends State<HealthForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Problemas respiratórios'),
-              value: _respiratoryProblems,
+              value: widget.data?.respiratoryProblems ?? false,
               onChanged: (value) {
-                setState(() => _respiratoryProblems = value);
+                setState(() => widget.data?.respiratoryProblems = value);
               },
             ),
 
@@ -165,9 +159,9 @@ class _HealthFormState extends State<HealthForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Problemas articulares'),
-              value: _jointProblems,
+              value: widget.data?.jointProblems ?? false,
               onChanged: (value) {
-                setState(() => _jointProblems = value);
+                setState(() => widget.data?.jointProblems = value);
               },
             ),
 
@@ -176,9 +170,9 @@ class _HealthFormState extends State<HealthForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Problemas de pele'),
-              value: _skinProblems,
+              value: widget.data?.skinProblems ?? false,
               onChanged: (value) {
-                setState(() => _skinProblems = value);
+                setState(() => widget.data?.skinProblems = value);
               },
             ),
 
@@ -187,9 +181,9 @@ class _HealthFormState extends State<HealthForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Problemas auditivos'),
-              value: _earProblems,
+              value: widget.data?.earProblems ?? false,
               onChanged: (value) {
-                setState(() => _earProblems = value);
+                setState(() => widget.data?.earProblems = value);
               },
             ),
 
@@ -198,9 +192,9 @@ class _HealthFormState extends State<HealthForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Problemas oculares'),
-              value: _sightProblems,
+              value: widget.data?.sightProblems ?? false,
               onChanged: (value) {
-                setState(() => _sightProblems = value);
+                setState(() => widget.data?.sightProblems = value);
               },
             ),
 
@@ -209,9 +203,9 @@ class _HealthFormState extends State<HealthForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Surdez'),
-              value: _deaf,
+              value: widget.data?.deaf ?? false,
               onChanged: (value) {
-                setState(() => _deaf = value);
+                setState(() => widget.data?.deaf = value);
               },
             ),
 
@@ -220,9 +214,9 @@ class _HealthFormState extends State<HealthForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Cegueira'),
-              value: _blind,
+              value: widget.data?.blind ?? false,
               onChanged: (value) {
-                setState(() => _blind = value);
+                setState(() => widget.data?.blind = value);
               },
             ),
 
@@ -231,6 +225,9 @@ class _HealthFormState extends State<HealthForm> {
               decoration: const InputDecoration(
                 labelText: 'Restrições médicas',
               ),
+              onChanged: (value) {
+                widget.data?.medicalRestrictions = value;
+              },
             ),
 
             const SizedBox(height: 44),

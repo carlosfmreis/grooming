@@ -8,20 +8,17 @@ class BehaviourForm extends StatefulWidget {
   const BehaviourForm({super.key, required this.formKey, this.data});
 
   @override
-  State<BehaviourForm> createState() => _BehaviourFormState();
+  State<BehaviourForm> createState() => BehaviourFormState();
 }
 
-class _BehaviourFormState extends State<BehaviourForm> {
-  late Behaviour _behaviour;
-
+class BehaviourFormState extends State<BehaviourForm>
+    with AutomaticKeepAliveClientMixin {
   @override
-  void initState() {
-    _behaviour = widget.data ?? Behaviour();
-    super.initState();
-  }
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Form(
       key: widget.formKey,
       child: SingleChildScrollView(
@@ -31,9 +28,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Sociável'),
-              value: _behaviour.sociable,
+              value: widget.data?.sociable ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.sociable = value);
+                setState(() => widget.data?.sociable = value);
               },
             ),
 
@@ -42,9 +39,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Medroso'),
-              value: _behaviour.scared,
+              value: widget.data?.scared ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.scared = value);
+                setState(() => widget.data?.scared = value);
               },
             ),
 
@@ -53,9 +50,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Ansioso'),
-              value: _behaviour.anxious,
+              value: widget.data?.anxious ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.anxious = value);
+                setState(() => widget.data?.anxious = value);
               },
             ),
 
@@ -64,9 +61,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Nervoso'),
-              value: _behaviour.nervous,
+              value: widget.data?.nervous ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.nervous = value);
+                setState(() => widget.data?.nervous = value);
               },
             ),
 
@@ -75,9 +72,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Muito energético'),
-              value: _behaviour.energetic,
+              value: widget.data?.energetic ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.energetic = value);
+                setState(() => widget.data?.energetic = value);
               },
             ),
 
@@ -86,9 +83,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Morde'),
-              value: _behaviour.bites,
+              value: widget.data?.bites ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.bites = value);
+                setState(() => widget.data?.bites = value);
               },
             ),
 
@@ -97,9 +94,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Rosna'),
-              value: _behaviour.growls,
+              value: widget.data?.growls ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.growls = value);
+                setState(() => widget.data?.growls = value);
               },
             ),
 
@@ -108,9 +105,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Tenta fugir'),
-              value: _behaviour.runs,
+              value: widget.data?.runs ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.runs = value);
+                setState(() => widget.data?.runs = value);
               },
             ),
 
@@ -119,9 +116,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Não gosta de secador'),
-              value: _behaviour.noDryer,
+              value: widget.data?.noDryer ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.noDryer = value);
+                setState(() => widget.data?.noDryer = value);
               },
             ),
 
@@ -130,9 +127,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Não gosta de máquina'),
-              value: _behaviour.noMachine,
+              value: widget.data?.noMachine ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.noMachine = value);
+                setState(() => widget.data?.noMachine = value);
               },
             ),
 
@@ -141,9 +138,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Não gosta de tesoura'),
-              value: _behaviour.noScissors,
+              value: widget.data?.noScissors ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.noScissors = value);
+                setState(() => widget.data?.noScissors = value);
               },
             ),
 
@@ -152,9 +149,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Não gosta de cortar unhas'),
-              value: _behaviour.noNailClipper,
+              value: widget.data?.noNailClipper ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.noNailClipper = value);
+                setState(() => widget.data?.noNailClipper = value);
               },
             ),
 
@@ -163,9 +160,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Não gosta de limpar ouvidos'),
-              value: _behaviour.noEarCleaner,
+              value: widget.data?.noEarCleaner ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.noEarCleaner = value);
+                setState(() => widget.data?.noEarCleaner = value);
               },
             ),
 
@@ -174,9 +171,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Não gosta de escovagem'),
-              value: _behaviour.noBrushing,
+              value: widget.data?.noBrushing ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.noBrushing = value);
+                setState(() => widget.data?.noBrushing = value);
               },
             ),
 
@@ -185,9 +182,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Necessita açaime'),
-              value: _behaviour.needsMuzzle,
+              value: widget.data?.needsMuzzle ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.needsMuzzle = value);
+                setState(() => widget.data?.needsMuzzle = value);
               },
             ),
 
@@ -196,9 +193,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Necessita duas pessoas'),
-              value: _behaviour.needsTwoPersons,
+              value: widget.data?.needsTwoPersons ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.needsTwoPersons = value);
+                setState(() => widget.data?.needsTwoPersons = value);
               },
             ),
 
@@ -207,9 +204,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Já tentou morder funcionários'),
-              value: _behaviour.hasServiceBiteHistory,
+              value: widget.data?.hasServiceBiteHistory ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.hasServiceBiteHistory = value);
+                setState(() => widget.data?.hasServiceBiteHistory = value);
               },
             ),
 
@@ -218,9 +215,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Reage a outros animais'),
-              value: _behaviour.reactsToOtherAnimals,
+              value: widget.data?.reactsToOtherAnimals ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.reactsToOtherAnimals = value);
+                setState(() => widget.data?.reactsToOtherAnimals = value);
               },
             ),
 
@@ -229,9 +226,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Reage a homens'),
-              value: _behaviour.reactsToMen,
+              value: widget.data?.reactsToMen ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.reactsToMen = value);
+                setState(() => widget.data?.reactsToMen = value);
               },
             ),
 
@@ -240,9 +237,9 @@ class _BehaviourFormState extends State<BehaviourForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Reage a mulheres'),
-              value: _behaviour.reactsToWomen,
+              value: widget.data?.reactsToWomen ?? false,
               onChanged: (value) {
-                setState(() => _behaviour.reactsToWomen = value);
+                setState(() => widget.data?.reactsToWomen = value);
               },
             ),
 

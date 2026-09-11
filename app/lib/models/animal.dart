@@ -59,35 +59,35 @@ enum CoatType {
 }
 
 class Animal {
-  final int? id;
-  final String name;
-  final String species;
-  final String breed;
-  final AnimalGender gender;
-  final bool isNeutered;
-  final DateTime? birthDate;
-  final AnimalColor color;
-  final CoatType coatType;
-  final AnimalEyeColor? eyeColor;
-  final double? currentWeight;
-  final double? previousWeight;
-  final String? microchip;
-  final String? photo;
-  final String? notes;
-  final Owner? owner;
-  final Health? health;
-  final Behaviour? behaviour;
+  int? id;
+  String? name;
+  String? species;
+  String? breed;
+  AnimalGender? gender;
+  bool? isNeutered;
+  DateTime? birthDate;
+  AnimalColor? color;
+  CoatType? coatType;
+  AnimalEyeColor? eyeColor;
+  double? currentWeight;
+  double? previousWeight;
+  String? microchip;
+  String? photo;
+  String? notes;
+  Owner? owner;
+  Health? health;
+  Behaviour? behaviour;
 
   Animal({
     this.id,
-    required this.name,
-    required this.species,
-    required this.breed,
-    required this.gender,
-    required this.isNeutered,
+    this.name,
+    this.species,
+    this.breed,
+    this.gender,
+    this.isNeutered,
     this.birthDate,
-    required this.color,
-    required this.coatType,
+    this.color,
+    this.coatType,
     this.eyeColor,
     this.currentWeight,
     this.previousWeight,

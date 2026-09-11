@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 
 class TutorForm extends StatefulWidget {
   final GlobalKey<FormState> formKey;
-  final Owner? owner;
+  final Owner? data;
 
-  const TutorForm({super.key, required this.formKey, this.owner});
+  const TutorForm({super.key, required this.formKey, this.data});
 
   @override
   State<TutorForm> createState() => _TutorFormState();
 }
 
-class _TutorFormState extends State<TutorForm> {
+class _TutorFormState extends State<TutorForm>
+    with AutomaticKeepAliveClientMixin {
   late TextEditingController _nameController;
   late TextEditingController _mainContactController;
   late TextEditingController _secondaryContactController;
@@ -19,25 +20,23 @@ class _TutorFormState extends State<TutorForm> {
   late TextEditingController _addressController;
   late TextEditingController _namesController;
 
-  final List<String> _names = [];
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
-    _nameController = TextEditingController(text: widget.owner?.name ?? '');
+    _nameController = TextEditingController(text: widget.data?.name ?? '');
     _mainContactController = TextEditingController(
-      text: widget.owner?.mainContact ?? '',
+      text: widget.data?.mainContact ?? '',
     );
     _secondaryContactController = TextEditingController(
-      text: widget.owner?.secondaryContact ?? '',
+      text: widget.data?.secondaryContact ?? '',
     );
-    _emailController = TextEditingController(text: widget.owner?.email ?? '');
+    _emailController = TextEditingController(text: widget.data?.email ?? '');
     _addressController = TextEditingController(
-      text: widget.owner?.address ?? '',
+      text: widget.data?.address ?? '',
     );
     _namesController = TextEditingController(text: '');
-    if (widget.owner?.authorizedPersons != null) {
-      _names.addAll(widget.owner!.authorizedPersons!);
-    }
     super.initState();
   }
 
@@ -54,6 +53,7 @@ class _TutorFormState extends State<TutorForm> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Form(
       key: widget.formKey,
       child: SingleChildScrollView(
@@ -64,6 +64,7 @@ class _TutorFormState extends State<TutorForm> {
               controller: _nameController,
               decoration: const InputDecoration(labelText: 'Nome *'),
               validator: (value) => value!.isEmpty ? 'Obrigatório' : null,
+              onChanged: (value) => widget.data?.name = value,
             ),
 
             const SizedBox(height: 12),
@@ -75,6 +76,7 @@ class _TutorFormState extends State<TutorForm> {
               ),
               validator: (value) => value!.isEmpty ? 'Obrigatório' : null,
               keyboardType: TextInputType.number,
+              onChanged: (value) => widget.data?.mainContact = value,
             ),
 
             const SizedBox(height: 12),
@@ -85,6 +87,7 @@ class _TutorFormState extends State<TutorForm> {
                 labelText: 'Contato Secundário',
               ),
               keyboardType: TextInputType.number,
+              onChanged: (value) => widget.data?.secondaryContact = value,
             ),
 
             const SizedBox(height: 12),
@@ -93,6 +96,7 @@ class _TutorFormState extends State<TutorForm> {
               controller: _emailController,
               decoration: const InputDecoration(labelText: 'E-mail'),
               keyboardType: TextInputType.emailAddress,
+              onChanged: (value) => widget.data?.email = value,
             ),
 
             const SizedBox(height: 12),
@@ -101,6 +105,7 @@ class _TutorFormState extends State<TutorForm> {
               controller: _addressController,
               decoration: const InputDecoration(labelText: 'Morada'),
               keyboardType: TextInputType.streetAddress,
+              onChanged: (value) => widget.data?.address = value,
             ),
 
             const SizedBox(height: 12),
@@ -112,9 +117,8 @@ class _TutorFormState extends State<TutorForm> {
               ),
               onSubmitted: (value) {
                 setState(() {
-                  _names.add(value.trim());
+                  widget.data?.authorizedPersons?.add(value.trim());
                 });
-                _namesController.clear();
               },
             ),
 
@@ -123,13 +127,13 @@ class _TutorFormState extends State<TutorForm> {
             Wrap(
               spacing: 8.0,
               runSpacing: 4.0,
-              children: _names
+              children: (widget.data?.authorizedPersons ?? [])
                   .map(
                     (name) => Chip(
                       label: Text(name),
                       onDeleted: () {
                         setState(() {
-                          _names.remove(name);
+                          widget.data?.authorizedPersons?.remove(name);
                         });
                       },
                     ),

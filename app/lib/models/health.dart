@@ -1,39 +1,39 @@
 class Health {
-  final int id;
-  final String? usualVet;
-  final String? vetClinic;
-  final bool vaccinated;
-  final bool internalDeworming;
-  final bool externalDeworming;
-  final String? knownDiseases;
-  final String? allergies;
-  final bool heartProblems;
-  final bool respiratoryProblems;
-  final bool jointProblems;
-  final bool skinProblems;
-  final bool earProblems;
-  final bool sightProblems;
-  final bool deaf;
-  final bool blind;
-  final String? medicalRestrictions;
+  int? id;
+  String? usualVet;
+  String? vetClinic;
+  bool vaccinated;
+  bool internalDeworming;
+  bool externalDeworming;
+  String? knownDiseases;
+  String? allergies;
+  bool heartProblems;
+  bool respiratoryProblems;
+  bool jointProblems;
+  bool skinProblems;
+  bool earProblems;
+  bool sightProblems;
+  bool deaf;
+  bool blind;
+  String? medicalRestrictions;
 
   Health({
-    required this.id,
+    this.id,
     this.usualVet,
     this.vetClinic,
-    required this.vaccinated,
-    required this.internalDeworming,
-    required this.externalDeworming,
+    this.vaccinated = false,
+    this.internalDeworming = false,
+    this.externalDeworming = false,
     this.knownDiseases,
     this.allergies,
-    required this.heartProblems,
-    required this.respiratoryProblems,
-    required this.jointProblems,
-    required this.skinProblems,
-    required this.earProblems,
-    required this.sightProblems,
-    required this.deaf,
-    required this.blind,
+    this.heartProblems = false,
+    this.respiratoryProblems = false,
+    this.jointProblems = false,
+    this.skinProblems = false,
+    this.earProblems = false,
+    this.sightProblems = false,
+    this.deaf = false,
+    this.blind = false,
     this.medicalRestrictions,
   });
 

@@ -14,7 +14,8 @@ class AnimalForm extends StatefulWidget {
   State<AnimalForm> createState() => _AnimalFormState();
 }
 
-class _AnimalFormState extends State<AnimalForm> {
+class _AnimalFormState extends State<AnimalForm>
+    with AutomaticKeepAliveClientMixin {
   late TextEditingController _nameController;
   late TextEditingController _speciesController;
   late TextEditingController _breedController;
@@ -23,14 +24,11 @@ class _AnimalFormState extends State<AnimalForm> {
   late TextEditingController _microchipController;
   late TextEditingController _notesController;
 
-  AnimalGender _gender = AnimalGender.male;
-  AnimalColor _color = AnimalColor.black;
-  AnimalEyeColor _eyeColor = AnimalEyeColor.brown;
-  bool _isNeutered = false;
-  CoatType _coatType = CoatType.short;
-  DateTime? _birthDate;
   Uint8List? _photoBytes;
   String? _photoName;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -42,7 +40,7 @@ class _AnimalFormState extends State<AnimalForm> {
     );
     _breedController = TextEditingController(text: widget.data?.breed ?? '');
     _weightController = TextEditingController(
-      text: widget.data?.currentWeight.toString() ?? '',
+      text: widget.data?.currentWeight?.toString() ?? '',
     );
     _previousWeightController = TextEditingController(
       text: widget.data?.previousWeight?.toString() ?? '',
@@ -51,12 +49,6 @@ class _AnimalFormState extends State<AnimalForm> {
       text: widget.data?.microchip ?? '',
     );
     _notesController = TextEditingController(text: widget.data?.notes ?? '');
-    _gender = widget.data?.gender ?? AnimalGender.male;
-    _color = widget.data?.color ?? AnimalColor.black;
-    _eyeColor = widget.data?.eyeColor ?? AnimalEyeColor.brown;
-    _isNeutered = widget.data?.isNeutered ?? false;
-    _coatType = widget.data?.coatType ?? CoatType.short;
-    _birthDate = widget.data?.birthDate;
   }
 
   @override
@@ -74,12 +66,12 @@ class _AnimalFormState extends State<AnimalForm> {
   Future<void> _selectBirthDate() async {
     final date = await showDatePicker(
       context: context,
-      initialDate: _birthDate,
+      initialDate: widget.data?.birthDate,
       firstDate: DateTime.now().subtract(const Duration(days: 365 * 100)),
       lastDate: DateTime.now(),
     );
     if (date != null) {
-      setState(() => _birthDate = date);
+      setState(() => widget.data?.birthDate = date);
     }
   }
 
@@ -98,6 +90,7 @@ class _AnimalFormState extends State<AnimalForm> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Form(
       key: widget.formKey,
       child: SingleChildScrollView(
@@ -108,6 +101,7 @@ class _AnimalFormState extends State<AnimalForm> {
               controller: _nameController,
               decoration: const InputDecoration(labelText: 'Nome *'),
               validator: (value) => value!.isEmpty ? 'Obrigatório' : null,
+              onChanged: (value) => widget.data?.name = value,
             ),
 
             const SizedBox(height: 12),
@@ -116,6 +110,7 @@ class _AnimalFormState extends State<AnimalForm> {
               controller: _speciesController,
               decoration: const InputDecoration(labelText: 'Espécie *'),
               validator: (value) => value!.isEmpty ? 'Obrigatório' : null,
+              onChanged: (value) => widget.data?.species = value,
             ),
 
             const SizedBox(height: 12),
@@ -124,12 +119,13 @@ class _AnimalFormState extends State<AnimalForm> {
               controller: _breedController,
               decoration: const InputDecoration(labelText: 'Raça *'),
               validator: (value) => value!.isEmpty ? 'Obrigatório' : null,
+              onChanged: (value) => widget.data?.breed = value,
             ),
 
             const SizedBox(height: 12),
 
             DropdownButtonFormField<AnimalGender>(
-              initialValue: _gender,
+              initialValue: widget.data?.gender,
               decoration: const InputDecoration(labelText: 'Sexo *'),
               items: AnimalGender.values
                   .map(
@@ -140,7 +136,7 @@ class _AnimalFormState extends State<AnimalForm> {
                   )
                   .toList(),
               onChanged: (value) {
-                setState(() => _gender = value!);
+                setState(() => widget.data?.gender = value);
               },
             ),
 
@@ -149,18 +145,18 @@ class _AnimalFormState extends State<AnimalForm> {
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Esterilizado *'),
-              value: _isNeutered,
+              value: widget.data?.isNeutered ?? false,
               onChanged: (value) {
-                setState(() => _isNeutered = value);
+                setState(() => widget.data?.isNeutered = value);
               },
             ),
 
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Data de nascimento'),
-              subtitle: _birthDate != null
+              subtitle: widget.data?.birthDate != null
                   ? Text(
-                      '${_birthDate?.day}/${_birthDate?.month}/${_birthDate?.year}',
+                      '${widget.data?.birthDate?.day}/${widget.data?.birthDate?.month}/${widget.data?.birthDate?.year}',
                     )
                   : null,
               trailing: const Icon(Icons.calendar_month),
@@ -168,7 +164,7 @@ class _AnimalFormState extends State<AnimalForm> {
             ),
 
             DropdownButtonFormField<AnimalColor>(
-              initialValue: _color,
+              initialValue: widget.data?.color,
               decoration: const InputDecoration(labelText: 'Cor *'),
               items: AnimalColor.values
                   .map(
@@ -179,14 +175,14 @@ class _AnimalFormState extends State<AnimalForm> {
                   )
                   .toList(),
               onChanged: (value) {
-                setState(() => _color = value!);
+                setState(() => widget.data?.color = value);
               },
             ),
 
             const SizedBox(height: 12),
 
             DropdownButtonFormField<CoatType>(
-              initialValue: _coatType,
+              initialValue: widget.data?.coatType,
               decoration: const InputDecoration(labelText: 'Tipo de pelagem *'),
               items: CoatType.values
                   .map(
@@ -197,14 +193,14 @@ class _AnimalFormState extends State<AnimalForm> {
                   )
                   .toList(),
               onChanged: (value) {
-                setState(() => _coatType = value!);
+                setState(() => widget.data?.coatType = value);
               },
             ),
 
             const SizedBox(height: 12),
 
             DropdownButtonFormField<AnimalEyeColor>(
-              initialValue: _eyeColor,
+              initialValue: widget.data?.eyeColor,
               decoration: const InputDecoration(labelText: 'Cor dos olhos'),
               items: AnimalEyeColor.values
                   .map(
@@ -215,7 +211,7 @@ class _AnimalFormState extends State<AnimalForm> {
                   )
                   .toList(),
               onChanged: (value) {
-                setState(() => _eyeColor = value!);
+                setState(() => widget.data?.eyeColor = value);
               },
             ),
 
@@ -227,6 +223,8 @@ class _AnimalFormState extends State<AnimalForm> {
                 decimal: true,
               ),
               decoration: const InputDecoration(labelText: 'Peso atual (kg)'),
+              onChanged: (value) =>
+                  widget.data?.currentWeight = double.tryParse(value),
             ),
 
             const SizedBox(height: 12),
@@ -239,6 +237,8 @@ class _AnimalFormState extends State<AnimalForm> {
               decoration: const InputDecoration(
                 labelText: 'Peso anterior (kg)',
               ),
+              onChanged: (value) =>
+                  widget.data?.previousWeight = double.tryParse(value),
             ),
 
             const SizedBox(height: 12),
@@ -246,6 +246,7 @@ class _AnimalFormState extends State<AnimalForm> {
             TextFormField(
               controller: _microchipController,
               decoration: const InputDecoration(labelText: 'Microchip'),
+              onChanged: (value) => widget.data?.microchip = value,
             ),
 
             const SizedBox(height: 12),
@@ -275,6 +276,7 @@ class _AnimalFormState extends State<AnimalForm> {
                 labelText: 'Notas',
                 alignLabelWithHint: true,
               ),
+              onChanged: (value) => widget.data?.notes = value,
             ),
 
             const SizedBox(height: 44),

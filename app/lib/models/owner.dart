@@ -1,5 +1,5 @@
 class Owner {
-  int id;
+  int? id;
   String name;
   String mainContact;
   String? secondaryContact;
@@ -8,9 +8,9 @@ class Owner {
   List<String>? authorizedPersons;
 
   Owner({
-    required this.id,
-    required this.name,
-    required this.mainContact,
+    this.id,
+    this.name = '',
+    this.mainContact = '',
     this.secondaryContact,
     this.email,
     this.address,
