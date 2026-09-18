@@ -1,8 +1,8 @@
-import 'dart:typed_data';
-
 import 'package:app/models/animal.dart';
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:http_parser/http_parser.dart';
 
 class AnimalForm extends StatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -24,8 +24,7 @@ class _AnimalFormState extends State<AnimalForm>
   late TextEditingController _microchipController;
   late TextEditingController _notesController;
 
-  Uint8List? _photoBytes;
-  String? _photoName;
+  PlatformFile? _photoFile;
 
   @override
   bool get wantKeepAlive => true;
@@ -33,7 +32,6 @@ class _AnimalFormState extends State<AnimalForm>
   @override
   void initState() {
     super.initState();
-
     _nameController = TextEditingController(text: widget.data?.name ?? '');
     _speciesController = TextEditingController(
       text: widget.data?.species ?? '',
@@ -80,10 +78,15 @@ class _AnimalFormState extends State<AnimalForm>
       type: FileType.image,
       withData: true,
     );
-    if (result != null) {
+    if (result != null && result.files.isNotEmpty) {
+      final file = result.files.first;
+      widget.data?.photoFile = MultipartFile.fromBytes(
+        file.bytes!,
+        filename: file.name,
+        contentType: MediaType('image', file.extension ?? 'jpeg'),
+      );
       setState(() {
-        _photoBytes = result.files.single.bytes;
-        _photoName = result.files.single.name;
+        _photoFile = file;
       });
     }
   }
@@ -257,18 +260,21 @@ class _AnimalFormState extends State<AnimalForm>
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: const Text('Foto'),
-              trailing: (_photoBytes != null)
+              trailing: (_photoFile?.bytes != null)
                   ? GestureDetector(
                       onTap: _pickPhoto,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(4),
-                        child: Image.memory(_photoBytes!, fit: BoxFit.cover),
+                        child: Image.memory(
+                          _photoFile!.bytes!,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     )
                   : OutlinedButton.icon(
                       onPressed: _pickPhoto,
                       icon: const Icon(Icons.upload_file),
-                      label: Text(_photoName ?? 'Selecionar Foto'),
+                      label: Text(_photoFile?.name ?? 'Selecionar Foto'),
                     ),
             ),
 

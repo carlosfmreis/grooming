@@ -1,10 +1,11 @@
+import 'package:app/config/boolean_normalizer_interceptor.dart';
 import 'package:app/config/router.dart';
 import 'package:app/utils/env.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class ApiClient {
-  final String _baseUrl = 'http://localhost:8001';
+  final String _baseUrl = 'http://localhost:8000/api';
 
   late final Dio _dio;
 
@@ -22,6 +23,7 @@ class ApiClient {
         },
       ),
     );
+    _dio.interceptors.add(DioBooleanNormalizerInterceptor());
   }
 
   void _showErrorDialog(String message) {

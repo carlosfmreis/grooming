@@ -1,6 +1,7 @@
 import 'package:app/models/behaviour.dart';
 import 'package:app/models/health.dart';
 import 'package:app/models/owner.dart';
+import 'package:dio/dio.dart';
 
 enum AnimalGender {
   male('Macho'),
@@ -73,6 +74,7 @@ class Animal {
   double? previousWeight;
   String? microchip;
   String? photo;
+  MultipartFile? photoFile;
   String? notes;
   int? ownerId;
   Owner? owner;
@@ -87,7 +89,7 @@ class Animal {
     this.species,
     this.breed,
     this.gender,
-    this.isNeutered,
+    this.isNeutered = false,
     this.birthDate,
     this.color,
     this.coatType,
@@ -96,6 +98,7 @@ class Animal {
     this.previousWeight,
     this.microchip,
     this.photo,
+    this.photoFile,
     this.notes,
     this.ownerId,
     this.owner,
@@ -111,16 +114,16 @@ class Animal {
       name: map['name'] as String,
       species: map['species'] as String,
       breed: map['breed'] as String,
-      gender: map['gender'] as AnimalGender,
-      isNeutered: map['isNeutered'] is int
-          ? (map['isNeutered'] == 1)
-          : map['isNeutered'] as bool,
+      gender: AnimalGender.values.byName(map['gender'] as String),
+      isNeutered: map['isNeutered'] as bool?,
       birthDate: map['birthDate'] != null
           ? DateTime.parse(map['birthDate'] as String)
           : null,
-      color: map['color'] as AnimalColor,
-      coatType: map['coatType'] as CoatType,
-      eyeColor: map['eyeColor'] as AnimalEyeColor?,
+      color: AnimalColor.values.byName(map['color'] as String),
+      coatType: CoatType.values.byName(map['coatType'] as String),
+      eyeColor: map['eyeColor'] != null
+          ? AnimalEyeColor.values.byName(map['eyeColor'] as String)
+          : null,
       currentWeight: map['currentWeight'] != null
           ? (map['currentWeight'] as num).toDouble()
           : null,
@@ -130,21 +133,19 @@ class Animal {
       microchip: map['microchip'] as String?,
       photo: map['photo'] as String?,
       notes: map['notes'] as String?,
-      ownerId: map['ownerId'] != null ? int.tryParse(map['ownerId']) : null,
+      ownerId: map['ownerId'],
+      healthId: map['healthId'],
+      behaviourId: map['behaviourId'],
       owner: map['owner'] != null ? Owner.fromMap(map['owner']) : null,
-      healthId: map['healthId'] != null ? int.tryParse(map['healthId']) : null,
       health: map['health'] != null ? Health.fromMap(map['health']) : null,
-      behaviourId: map['behaviourId'] != null
-          ? int.tryParse(map['behaviourId'])
-          : null,
       behaviour: map['behaviour'] != null
           ? Behaviour.fromMap(map['behaviour'])
           : null,
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
+  FormData toMap() {
+    return FormData.fromMap({
       'id': id,
       'name': name,
       'species': species,
@@ -159,6 +160,7 @@ class Animal {
       'previousWeight': previousWeight,
       'microchip': microchip,
       'photo': photo,
+      'photoFile': photoFile,
       'notes': notes,
       'ownerId': ownerId,
       'owner': owner?.toMap(),
@@ -166,6 +168,6 @@ class Animal {
       'health': health?.toMap(),
       'behaviourId': behaviourId,
       'behaviour': behaviour?.toMap(),
-    };
+    });
   }
 }

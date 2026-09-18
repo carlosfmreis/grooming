@@ -53,11 +53,10 @@ class CreatePetRequest extends FormRequest
             "currentWeight" => ["nullable", "numeric"],
             "previousWeight" => ["nullable", "numeric"],
             "microchip" => ["nullable", "string", "max:255"],
-            "photo" => [
+            "photoFile" => [
                 "nullable",
                 "file",
-                "image",
-                "mimetypes:image/jpeg,image/png,image/webp,image/heic,image/heif",
+                "mimes:jpeg,jpg,png,webp",
                 "max:10240",
             ],
             "notes" => ["nullable", "string", "max:2000"],

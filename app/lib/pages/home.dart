@@ -3,6 +3,7 @@ import 'package:app/config/events.dart';
 import 'package:app/config/routes.dart';
 import 'package:app/config/styles.dart';
 import 'package:app/pages/calendar.dart';
+import 'package:app/pages/pets_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -43,10 +44,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: IndexedStack(
         index: _currentIndex,
-        children: [
-          CalendarPage(),
-          Center(child: Text('Animais')),
-        ],
+        children: [CalendarPage(), PetsPage()],
       ),
       floatingActionButton: IconButton(
         onPressed: () {
