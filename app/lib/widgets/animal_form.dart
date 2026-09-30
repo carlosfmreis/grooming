@@ -1,7 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:app/models/animal.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:heic_to_png_jpg/heic_to_png_jpg.dart';
 import 'package:http_parser/http_parser.dart';
 
 class AnimalForm extends StatefulWidget {
@@ -79,9 +82,17 @@ class _AnimalFormState extends State<AnimalForm>
       withData: true,
     );
     if (result != null && result.files.isNotEmpty) {
-      final file = result.files.first;
+      final PlatformFile file = result.files.first;
+      Uint8List fileBytes = file.bytes!;
+      if (HeicConverter.isHeic(file.bytes!)) {
+        fileBytes = await HeicConverter.convertToJPG(
+          heicData: file.bytes!,
+          maxWidth: 1024,
+          quality: 80,
+        );
+      }
       widget.data?.photoFile = MultipartFile.fromBytes(
-        file.bytes!,
+        fileBytes,
         filename: file.name,
         contentType: MediaType('image', file.extension ?? 'jpeg'),
       );
