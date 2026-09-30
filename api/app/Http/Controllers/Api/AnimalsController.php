@@ -27,12 +27,7 @@ class AnimalsController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile("photoFile")) {
-            $file = $request->file("photoFile");
-            $image = Image::decode($file)->scale(height: 800);
-            $encoded = $image->encode(new WebpEncoder(quality: 80));
-            $path = "pets/" . uniqid() . ".webp";
-            Storage::disk("public")->put($path, $encoded);
-            $data["photo"] = $path;
+            $request->file("photoFile")->store("pets", "public");
         }
 
         $pet = DB::transaction(function () use ($data) {

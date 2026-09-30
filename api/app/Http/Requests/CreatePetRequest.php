@@ -55,8 +55,8 @@ class CreatePetRequest extends FormRequest
             "microchip" => ["nullable", "string", "max:255"],
             "photoFile" => [
                 "nullable",
-                "file",
-                "mimes:jpeg,jpg,png,webp",
+                "image",
+                "mimes:jpeg,png,jpg,webp",
                 "max:10240",
             ],
             "notes" => ["nullable", "string", "max:2000"],
